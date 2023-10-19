@@ -1,0 +1,13 @@
+root - INFO - Testing import_data: SUCCESS
+root - INFO - Testing eda: SUCCESS. ALL EDA plots successfully saved
+root - INFO - Testing encoder_helper: Successfully ran cols_to_encode
+root - INFO - Testing encoder_helper: SUCCESS. All encoded columns are present
+root - INFO - Testing perform_feature_engineering: SUCCESS. Training and test             features and labels are generated
+root - INFO - Testing test_get_classification_report: SUCCESS. Train and test             classification reports successfully generated
+root - INFO - Testing get_roc_plot: SUCCESS. Successfully generated ROC plot
+root - INFO - Testing test_feature_importance_plot: SUCCESS. Successfully             generated feature importance plot
+root - INFO - Testing test_train_models: Models successfully trained and saved.
+root - INFO - Testing test_train_models: Classification reports generated.
+root - INFO - Testing test_train_models: ROC plot generated.
+root - INFO - Testing test_train_models: RandomForestClassifier feature             importance plot generated.
+root - INFO - Testing test_train_models: SUCCESS.
