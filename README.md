@@ -48,8 +48,12 @@ conda create -n pred_cust_churn python=3.8
 conda activate pred_cust_churn
 ```
 
-3. Install the dependencies
+3. Install the dependencies, e.g.
 ```
+# for python 3.6
+python -m pip install -r requirements_py3.6.txt
+
+# or for python 3.8
 python -m pip install -r requirements_py3.8.txt
 ```
 
