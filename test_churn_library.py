@@ -39,8 +39,8 @@ def sampled_db():
             "Attrition_Flag": [
                 "Existing Customer", "Existing Customer", "Attrited Customer",
                 "Existing Customer", "Existing Customer", "Existing Customer",
-                "Existing Customer", "Existing Customer", "Existing Customer",
-                "Existing Customer"
+                "Existing Customer", "Existing Customer", "Attrited Customer",
+                "Attrited Customer"
             ],
             "Customer_Age": [45, 49, 62, 41, 47, 54, 41, 59, 63, 44],
             "Gender": ["M", "F", "F", "M", "F", "M", "F", "M", "M", "F"],
@@ -241,9 +241,9 @@ def test_generate_mean_encoding_marital_status(df):
     """
     df = cls.generate_churn_label(df)
     df = cls.generate_mean_encoding(df, 'Marital_Status', 'Churn')
-    assert df.iloc[0]["Marital_Status_Churn"] == 0.2
-    assert df.iloc[1]["Marital_Status_Churn"] == 0
-    assert df.iloc[2]["Marital_Status_Churn"] == 0.2
+    assert df.iloc[0]["Marital_Status_Churn"] == 0.4
+    assert df.iloc[1]["Marital_Status_Churn"] == 0.25
+    assert df.iloc[2]["Marital_Status_Churn"] == 0.4
 
 
 @parametrize_with_cases("df", cases=sampled_db)
@@ -255,7 +255,7 @@ def test_generate_mean_encoding_income_category(df):
     """
     df = cls.generate_churn_label(df)
     df = cls.generate_mean_encoding(df, 'Income_Category', 'Churn')
-    assert df.iloc[0]["Income_Category_Churn"] == 0
+    assert df.iloc[0]["Income_Category_Churn"] == 0.5
     assert df.iloc[1]["Income_Category_Churn"] == 0.25
     assert df.iloc[2]["Income_Category_Churn"] == 0.25
 
@@ -318,8 +318,9 @@ def test_get_roc_plot(df):
             lr_model=lr_model,
             X_test=X_test,
             y_test=y_test,
-            roc_pth="images/roc_curve.png"
+            roc_pth="images/results/roc_curve.png"
         )
+        assert os.path.exists("images/results/roc_curve.png")
         logging.info(
             "Testing get_roc_plot: SUCCESS. Successfully generated ROC plot"
         )
@@ -344,8 +345,8 @@ def test_get_feature_importance_plot(df):
             label='Churn'
         )
         cls.get_feature_importance_plot(
-            rfc_model, X_train, "images/rf_feat_imp.png")
-        assert os.path.exists("images/rf_feat_imp.png")
+            rfc_model, X_train, "images/results/rf_feat_imp.png")
+        assert os.path.exists("images/results/rf_feat_imp.png")
         logging.info(
             "Testing test_feature_importance_plot: SUCCESS. Successfully \
             generated feature importance plot"

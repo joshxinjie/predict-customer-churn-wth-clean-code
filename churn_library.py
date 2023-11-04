@@ -11,7 +11,7 @@ import os
 from typing import Tuple
 
 import joblib
-from sklearn.metrics import RocCurveDisplay, classification_report
+from sklearn.metrics import roc_curve, roc_auc_score, classification_report
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -187,8 +187,8 @@ def perform_feature_engineering(
         'Gender_Churn', 'Education_Level_Churn', 'Marital_Status_Churn',
         'Income_Category_Churn', 'Card_Category_Churn'
     ]
-    X = pd.DataFrame()
-    X[keep_cols] = df[keep_cols]
+    # X = pd.DataFrame()
+    X = df[keep_cols]
     y = df[label]
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.3, random_state=42)
@@ -253,13 +253,22 @@ def get_roc_plot(
     Returns:
         None
     """
-    plt.figure(figsize=(15, 8))
-    ax = plt.gca()
-    rfc_disp = RocCurveDisplay.from_estimator(
-        rf_model, X_test, y_test, ax=ax, alpha=0.8
-    )
-    lrc_plot = RocCurveDisplay.from_estimator(lr_model, X_test, y_test)
-    lrc_plot.plot(ax=ax, alpha=0.8)
+
+    plt.figure(0).clf()
+
+    y_test_preds_rf = rf_model.predict(X_test)
+    y_test_preds_lr = lr_model.predict(X_test)
+
+    rf_fpr, rf_tpr, rf_thresh = roc_curve(y_test, y_test_preds_rf)
+    rf_auc = roc_auc_score(y_test, y_test_preds_rf)
+    plt.plot(rf_fpr,rf_tpr,label="Random Forest, auc="+str(rf_auc))
+
+    lr_fpr, lr_tpr, lr_thresh = roc_curve(y_test, y_test_preds_lr)
+    lr_auc = roc_auc_score(y_test, y_test_preds_lr)
+    plt.plot(lr_fpr,lr_tpr,label="Logistic Regression, auc="+str(lr_auc))
+
+    plt.legend(loc=0)
+    roc_pth="images/results/roc_curve.png"
     plt.savefig(roc_pth)
 
 
